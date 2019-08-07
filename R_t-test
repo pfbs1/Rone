@@ -1,0 +1,42 @@
+
+# R t-test code sample
+
+# one sampel t-test
+data <-c(200,210,180,190,185,170,180,
+         180,210,180,183,191,204,201,186)
+
+# 정규성 검정 
+shapiro.test(data)
+## p-value 0.2047로 0.05보다 크므로 정규분포를 따르고 있음. 
+
+# one sample t-test 
+t.test(data, alternative = "two.sided",mu=200)
+## t = -3.1563, df = 14, p-value = 0.007004 # 귀무가설 기각됨. 
+
+
+# paired sample t-test
+data2 <- data.frame(before=c(7,3,4,5,2,1,6,6,5,4),
+                    after =c(8,4,5,6,2,3,6,8,6,5))
+data2
+
+# paired sample t-test
+t.test(data2$before, data2$after, alternative = "less", paired = TRUE)
+
+
+# independent sample t-test
+## 가설설정,, 유의수준설정,,등분산검정,,검정통계량 계산,,유의확률 계산
+
+group<-factor(rep(c("A","B"),each=10))
+A <- c(-1,0,3,4,1,3,3,1,1,3)
+B<-c(6,6,8,8,11,11,10,8,8,9)
+weather<-data.frame(group=group, temp=c(A,B))
+
+group
+weather
+
+# 등분산검정
+var.test(temp~group, data=weather, alternative="two.sided")
+
+# independent sample t-test
+t.test(temp~group, data=weather, alternative="two.sided", var.equal=TRUE)
+
